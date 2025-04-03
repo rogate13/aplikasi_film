@@ -17,6 +17,7 @@ return [
     'search' => 'Cari',
     'year' => 'Tahun',
     'all_types' => 'Semua Tipe',
+    'movie' => 'Film',
     'series' => 'Serial',
     'details' => 'Detail',
     'no_movies_found' => 'Tidak ada film ditemukan',

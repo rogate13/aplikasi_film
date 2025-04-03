@@ -17,6 +17,7 @@ return [
     'search' => 'Search',
     'year' => 'Year',
     'all_types' => 'All Types',
+    'movie' => 'Movie',
     'series' => 'Series',
     'details' => 'Details',
     'no_movies_found' => 'No movies found',
