@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'My Favorites')
+@section('title', __('messages.my_favorites'))
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">My Favorite Movies</h1>
+    <h1 class="mb-4">@lang('messages.my_favorites')</h1>
 
     @if($favorites->count() > 0)
         <div class="row">
@@ -23,11 +23,11 @@
                         </div>
                         <div class="card-footer bg-white">
                             <a href="{{ route('movies.show', $favorite->imdb_id) }}" class="btn btn-sm btn-outline-primary">
-                                Details
+                                @lang('messages.details')
                             </a>
                             <button class="btn btn-sm btn-outline-danger float-end remove-favorite"
                                     data-imdb-id="{{ $favorite->imdb_id }}">
-                                Remove
+                                @lang('messages.remove')
                             </button>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
         </div>
     @else
         <div class="alert alert-info">
-            You don't have any favorite movies yet.
+            @lang('messages.no_favorites')
         </div>
     @endif
 </div>
@@ -50,22 +50,46 @@ $(document).ready(function() {
         const btn = $(this);
         const imdbID = btn.data('imdb-id');
 
-        $.ajax({
-            url: `/favorites/${imdbID}`,
-            type: 'DELETE',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function() {
-                btn.closest('.col-md-4').fadeOut(300, function() {
-                    $(this).remove();
-                    if ($('#moviesContainer').children().length === 0) {
-                        location.reload();
-                    }
-                });
-            }
-        });
+        if (confirm('@lang('messages.confirm_remove_favorite')')) {
+            $.ajax({
+                url: `/favorites/${imdbID}`,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function() {
+                    btn.closest('.col-md-4').fadeOut(300, function() {
+                        $(this).remove();
+                        if ($('#moviesContainer').children().length === 0) {
+                            location.reload();
+                        }
+                    });
+                    showToast('@lang('messages.removed_from_favorites')', 'success');
+                },
+                error: function() {
+                    showToast('@lang('messages.remove_favorite_error')', 'error');
+                }
+            });
+        }
     });
+
+    function showToast(message, type = 'success') {
+        const toast = $(`
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                <div class="toast align-items-center text-white bg-${type} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        `);
+
+        $('body').append(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
 
     // Lazy load images
     const lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));

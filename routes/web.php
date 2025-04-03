@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\LanguageController;
 
 // Redirect root URL berdasarkan status auth
 Route::get('/', function () {
@@ -30,3 +31,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/favorites', [MovieController::class, 'addFavorite'])->name('favorites.add');
     Route::delete('/favorites/{id}', [MovieController::class, 'removeFavorite'])->name('favorites.remove');
 });
+
+// Language Routes
+Route::get('/language/{language}', [LanguageController::class, 'switch']);

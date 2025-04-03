@@ -1,26 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Movies')
+@section('title', __('messages.movie_list'))
 
 @section('content')
 <div class="row mb-4">
     <div class="col-md-12">
         <form id="searchForm" class="row g-3">
             <div class="col-md-4">
-                <input type="text" class="form-control" name="s" placeholder="Search..." value="{{ $search ?? '' }}">
+                <input type="text" class="form-control" name="s" placeholder="@lang('messages.search_placeholder')" value="{{ $search ?? '' }}">
             </div>
             <div class="col-md-3">
-                <input type="text" class="form-control" name="y" placeholder="Year" value="{{ $year ?? '' }}">
+                <input type="text" class="form-control" name="y" placeholder="@lang('messages.year')" value="{{ $year ?? '' }}">
             </div>
             <div class="col-md-3">
                 <select class="form-select" name="type">
-                    <option value="">All Types</option>
-                    <option value="movie" {{ ($type ?? '') === 'movie' ? 'selected' : '' }}>Movie</option>
-                    <option value="series" {{ ($type ?? '') === 'series' ? 'selected' : '' }}>Series</option>
+                    <option value="">@lang('messages.all_types')</option>
+                    <option value="movie" {{ ($type ?? '') === 'movie' ? 'selected' : '' }}>@lang('messages.movie')</option>
+                    <option value="series" {{ ($type ?? '') === 'series' ? 'selected' : '' }}>@lang('messages.series')</option>
                 </select>
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Search</button>
+                <button type="submit" class="btn btn-primary w-100">@lang('messages.search')</button>
             </div>
         </form>
     </div>
@@ -37,12 +37,12 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $movie['Title'] }}</h5>
                     <p class="card-text">
-                        <small class="text-muted">{{ $movie['Year'] }} | {{ $movie['Type'] }}</small>
+                        <small class="text-muted">{{ $movie['Year'] }} | {{ ucfirst($movie['Type']) }}</small>
                     </p>
                 </div>
                 <div class="card-footer bg-white">
                     <a href="{{ route('movies.show', $movie['imdbID']) }}" class="btn btn-sm btn-outline-primary">
-                        Details
+                        @lang('messages.details')
                     </a>
                     @auth
                         <i class="{{ in_array($movie['imdbID'], $favoriteIds ?? []) ? 'fas' : 'far' }} fa-star favorite-btn float-end fs-4"
@@ -50,15 +50,15 @@
                            data-title="{{ $movie['Title'] }}"
                            data-year="{{ $movie['Year'] }}"
                            data-poster="{{ $movie['Poster'] }}"
-                           title="{{ in_array($movie['imdbID'], $favoriteIds ?? []) ? 'Remove from favorites' : 'Add to favorites' }}"></i>
+                           title="{{ in_array($movie['imdbID'], $favoriteIds ?? []) ? __('messages.remove_favorite') : __('messages.add_favorite') }}"></i>
                     @endauth
                 </div>
             </div>
         </div>
     @empty
         <div class="col-12 text-center py-5">
-            <h4>No movies found</h4>
-            <p>Try a different search</p>
+            <h4>@lang('messages.no_movies_found')</h4>
+            <p>@lang('messages.try_different_search')</p>
         </div>
     @endforelse
 </div>
@@ -86,18 +86,18 @@ $(document).ready(function() {
             success: function() {
                 btn.toggleClass('fas far');
                 const newTitle = btn.hasClass('fas')
-                    ? 'Remove from favorites'
-                    : 'Add to favorites';
+                    ? '@lang('messages.remove_favorite')'
+                    : '@lang('messages.add_favorite')';
                 btn.attr('title', newTitle);
 
                 // Show toast notification
                 const message = btn.hasClass('fas')
-                    ? 'Added to favorites'
-                    : 'Removed from favorites';
+                    ? '@lang('messages.added_to_favorites')'
+                    : '@lang('messages.removed_from_favorites')';
                 showToast(message);
             },
             error: function() {
-                showToast('Error updating favorites', 'error');
+                showToast('@lang('messages.update_favorite_error')', 'error');
             }
         });
     });

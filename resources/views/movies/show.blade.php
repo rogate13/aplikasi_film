@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $movie['Title'] ?? 'Movie Details')
+@section('title', $movie['Title'] ?? __('messages.movie_details'))
 
 @section('hero-section')
 <section class="hero-section" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('{{ ($movie['Poster'] ?? '') !== 'N/A' ? $movie['Poster'] : 'https://via.placeholder.com/1920x1080?text=No+Backdrop' }}'); background-size: cover; background-position: center;">
@@ -23,7 +23,7 @@
                        data-year="{{ $movie['Year'] ?? '' }}"
                        data-poster="{{ $movie['Poster'] ?? '' }}"
                        style="cursor: pointer;"
-                       title="{{ $isFavorite ? 'Remove from favorites' : 'Add to favorites' }}"></i>
+                       title="{{ $isFavorite ? __('messages.remove_favorite') : __('messages.add_favorite') }}"></i>
                 </div>
 
                 <div class="movie-meta mb-4">
@@ -41,7 +41,7 @@
                                 <i class="fab fa-imdb fa-3x me-2 text-warning"></i>
                                 <div>
                                     <div class="fs-4 fw-bold">{{ $movie['imdbRating'] }}/10</div>
-                                    <small class="text-muted">IMDb Rating</small>
+                                    <small class="text-muted">@lang('messages.imdb_rating')</small>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                 <i class="fas fa-film fa-3x me-2 text-info"></i>
                                 <div>
                                     <div class="fs-4 fw-bold">{{ $movie['Metascore'] }}/100</div>
-                                    <small class="text-muted">Metascore</small>
+                                    <small class="text-muted">@lang('messages.metascore')</small>
                                 </div>
                             </div>
                         </div>
@@ -61,11 +61,11 @@
                 </div>
 
                 <a href="{{ route('movies.index') }}" class="btn btn-outline-light me-2">
-                    <i class="fas fa-arrow-left me-1"></i> Back to Movies
+                    <i class="fas fa-arrow-left me-1"></i> @lang('messages.back_to_movies')
                 </a>
                 @if(!empty($movie['Website']) && $movie['Website'] !== 'N/A')
                     <a href="{{ $movie['Website'] }}" target="_blank" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt me-1"></i> Official Website
+                        <i class="fas fa-external-link-alt me-1"></i> @lang('messages.official_website')
                     </a>
                 @endif
             </div>
@@ -78,17 +78,17 @@
 <div class="row">
     <div class="col-lg-8" data-aos="fade-up">
         <div class="detail-section mb-4">
-            <h3 class="mb-4">Plot</h3>
-            <p class="lead">{{ $movie['Plot'] ?? 'No plot available' }}</p>
+            <h3 class="mb-4">@lang('messages.plot')</h3>
+            <p class="lead">{{ $movie['Plot'] ?? __('messages.no_plot_available') }}</p>
 
             @if(!empty($movie['Director']) && $movie['Director'] !== 'N/A')
                 <div class="row mt-4">
                     <div class="col-md-6">
-                        <h5>Director</h5>
+                        <h5>@lang('messages.director')</h5>
                         <p>{{ $movie['Director'] }}</p>
                     </div>
                     <div class="col-md-6">
-                        <h5>Writers</h5>
+                        <h5>@lang('messages.writers')</h5>
                         <p>{{ $movie['Writer'] ?? 'N/A' }}</p>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 
             @if(!empty($movie['Actors']) && $movie['Actors'] !== 'N/A')
                 <div class="mt-4">
-                    <h5>Cast</h5>
+                    <h5>@lang('messages.cast')</h5>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach(explode(',', $movie['Actors']) as $actor)
                             <span class="badge bg-secondary">{{ trim($actor) }}</span>
@@ -108,7 +108,7 @@
 
         @if(!empty($movie['Ratings']))
         <div class="detail-section mb-4">
-            <h3 class="mb-4">Ratings</h3>
+            <h3 class="mb-4">@lang('messages.ratings')</h3>
             <div class="row">
                 @foreach($movie['Ratings'] as $rating)
                     <div class="col-md-4 mb-3">
@@ -127,39 +127,39 @@
 
     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
         <div class="detail-section mb-4">
-            <h3 class="mb-4">Details</h3>
+            <h3 class="mb-4">@lang('messages.details')</h3>
             <ul class="list-group list-group-flush">
                 @if(!empty($movie['Released']) && $movie['Released'] !== 'N/A')
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Release Date</span>
+                        <span>@lang('messages.release_date')</span>
                         <span class="fw-bold">{{ $movie['Released'] }}</span>
                     </li>
                 @endif
 
                 @if(!empty($movie['Language']) && $movie['Language'] !== 'N/A')
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Language</span>
+                        <span>@lang('messages.language')</span>
                         <span class="fw-bold">{{ $movie['Language'] }}</span>
                     </li>
                 @endif
 
                 @if(!empty($movie['Country']) && $movie['Country'] !== 'N/A')
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Country</span>
+                        <span>@lang('messages.country')</span>
                         <span class="fw-bold">{{ $movie['Country'] }}</span>
                     </li>
                 @endif
 
                 @if(!empty($movie['BoxOffice']) && $movie['BoxOffice'] !== 'N/A')
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Box Office</span>
+                        <span>@lang('messages.box_office')</span>
                         <span class="fw-bold">{{ $movie['BoxOffice'] }}</span>
                     </li>
                 @endif
 
                 @if(!empty($movie['Production']) && $movie['Production'] !== 'N/A')
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Production</span>
+                        <span>@lang('messages.production')</span>
                         <span class="fw-bold">{{ $movie['Production'] }}</span>
                     </li>
                 @endif
@@ -168,7 +168,7 @@
 
         @if(!empty($movie['Awards']) && $movie['Awards'] !== 'N/A' && $movie['Awards'] !== 'None')
         <div class="detail-section">
-            <h3 class="mb-4">Awards</h3>
+            <h3 class="mb-4">@lang('messages.awards')</h3>
             <div class="alert alert-warning">
                 <i class="fas fa-trophy me-2"></i> {{ $movie['Awards'] }}
             </div>
@@ -181,10 +181,10 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="detail-section">
-            <h3 class="mb-4">Seasons</h3>
+            <h3 class="mb-4">@lang('messages.seasons')</h3>
             <div class="d-flex flex-wrap gap-2">
                 @for($i = 1; $i <= $movie['totalSeasons']; $i++)
-                    <a href="#" class="btn btn-outline-primary">Season {{ $i }}</a>
+                    <a href="#" class="btn btn-outline-primary">@lang('messages.season') {{ $i }}</a>
                 @endfor
             </div>
         </div>
@@ -218,11 +218,11 @@ $(document).ready(function() {
                     },
                     success: function(response) {
                         btn.toggleClass('fas far');
-                        btn.attr('title', 'Add to favorites');
-                        showToast('Removed from favorites', 'success');
+                        btn.attr('title', '@lang('messages.add_favorite')');
+                        showToast('@lang('messages.removed_from_favorites')', 'success');
                     },
                     error: function() {
-                        showToast('Error removing favorite', 'error');
+                        showToast('@lang('messages.remove_favorite_error')', 'error');
                     }
                 });
             } else {
@@ -239,11 +239,11 @@ $(document).ready(function() {
                     },
                     success: function(response) {
                         btn.toggleClass('fas far');
-                        btn.attr('title', 'Remove from favorites');
-                        showToast('Added to favorites', 'success');
+                        btn.attr('title', '@lang('messages.remove_favorite')');
+                        showToast('@lang('messages.added_to_favorites')', 'success');
                     },
                     error: function() {
-                        showToast('Error adding favorite', 'error');
+                        showToast('@lang('messages.add_favorite_error')', 'error');
                     }
                 });
             }

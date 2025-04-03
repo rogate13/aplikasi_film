@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title') - Movie App</title>
+    <title>@lang('messages.app_title')</title>
 
     <!-- Bootstrap 5 CSS dari CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -247,22 +247,26 @@
 <body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('movies.index') }}">CineMagic</a>
+            <a class="navbar-brand" href="{{ route('movies.index') }}">@lang('messages.app_name')</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <select class="form-select form-select-sm me-3" onchange="window.location.href='/language/' + this.value">
+                    <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
+                    <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>Bahasa Indonesia</option>
+                </select>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('movies.index') }}">{{ __('Movies') }}</a>
+                        <a class="nav-link" href="{{ route('movies.index') }}">@lang('messages.movies')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('favorites.index') }}">{{ __('Favorites') }}</a>
+                        <a class="nav-link" href="{{ route('favorites.index') }}">@lang('messages.favorites')</a>
                     </li>
                 </ul>
                 <form action="{{ route('logout') }}" method="POST" class="d-flex">
                     @csrf
-                    <button type="submit" class="btn btn-outline-light">{{ __('Logout') }}</button>
+                    <button type="submit" class="btn btn-outline-light">@lang('messages.logout')</button>
                 </form>
             </div>
         </div>
@@ -278,7 +282,7 @@
 
     <footer class="mt-auto">
         <div class="container text-center">
-            <p class="mb-0">&copy; {{ date('Y') }} CineMagic - Your Ultimate Movie Experience</p>
+            <p class="mb-0">@lang('messages.copyright', ['year' => date('Y')])</p>
             <div class="mt-2">
                 <a href="#" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
@@ -322,24 +326,6 @@
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
-            });
-        });
-    </script>
-
-    <script>
-    // Inisialisasi lazy load
-        document.addEventListener("DOMContentLoaded", function() {
-            var lazyLoadInstance = new LazyLoad({
-                elements_selector: ".lazy",
-                threshold: 100,
-                callback_loaded: function(el) {
-                    el.classList.add('loaded');
-                }
-            });
-
-            // Untuk gambar yang dimuat setelah AJAX
-            $(document).ajaxComplete(function() {
-                lazyLoadInstance.update();
             });
         });
     </script>
