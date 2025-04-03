@@ -30,10 +30,12 @@
     @forelse($movies['Search'] ?? [] as $movie)
         <div class="col-md-4 mb-4">
             <div class="card movie-card h-100">
-                <img src="{{ $movie['Poster'] !== 'N/A' ? $movie['Poster'] : 'https://via.placeholder.com/300x450?text=No+Poster' }}"
-                     class="card-img-top lazy"
-                     alt="{{ $movie['Title'] }}"
-                     data-src="{{ $movie['Poster'] !== 'N/A' ? $movie['Poster'] : 'https://via.placeholder.com/300x450?text=No+Poster' }}">
+                <img src="{{ $movie['Poster'] !== 'N/A' ? $movie['Poster'] : 'https://dummyimage.com/300x450/ccc/000&text=No+Poster' }}"
+                    class="card-img-top lazy"
+                    alt="{{ $movie['Title'] }}"
+                    loading="lazy"
+                    data-src="{{ $movie['Poster'] !== 'N/A' ? $movie['Poster'] : 'https://dummyimage.com/300x450/ccc/000&text=No+Poster' }}"
+                    onerror="this.src='https://via.placeholder.com/300x450?text=Error+Loading'">
                 <div class="card-body">
                     <h5 class="card-title">{{ $movie['Title'] }}</h5>
                     <p class="card-text">

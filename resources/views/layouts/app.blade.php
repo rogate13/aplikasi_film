@@ -330,6 +330,24 @@
         });
     </script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Inisialisasi LazyLoad dengan konfigurasi
+            var lazyLoadInstance = new LazyLoad({
+                elements_selector: ".lazy",
+                threshold: 100,
+                callback_loaded: function(el) {
+                    el.classList.add('loaded');
+                }
+            });
+
+            // Untuk gambar yang dimuat setelah AJAX
+            $(document).ajaxComplete(function() {
+                lazyLoadInstance.update();
+            });
+        });
+        </script>
+
     @yield('scripts')
 </body>
 </html>
